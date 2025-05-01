@@ -1,0 +1,196 @@
+<h1 id="информация">Информация</h1>
+<h2 id="докладчик">Докладчик</h2>
+<div class="columns" data-align="center">
+<div class="column" style="width:70%;">
+<ul>
+<li>Городянский Фёдор Николаевич</li>
+<li>студент</li>
+<li>Российский университет дружбы народов</li>
+<li><a href="mailto:1132226456@pfur.ru">1132226456@pfur.ru</a></li>
+<li><a href="https://Fedass.github.io/ru/"
+class="uri">https://Fedass.github.io/ru/</a></li>
+</ul>
+</div><div class="column" style="width:25%;">
+
+</div>
+</div>
+<h1 id="введение">Введение</h1>
+<h2 id="цели-и-задачи">Цели и задачи</h2>
+<p><strong>Цель работы</strong></p>
+<p>Исследовать модели случайного блуждания.</p>
+<p><strong>Задачи</strong></p>
+<ul>
+<li>Дать теоретическое описание моделей случайного блуждания</li>
+<li>Привести примеры реализации моделирования случайного блуждания</li>
+</ul>
+<h2 id="актуальность">Актуальность</h2>
+<p>Примеры применения математических моделей случайного блуждания:</p>
+<ul>
+<li>моделирование движения цен на фондовом рынке</li>
+<li>исследование диффузии в жидкостях</li>
+<li>моделирование случайных процессов в биологии</li>
+</ul>
+<h2 id="инструменты">Инструменты</h2>
+<ul>
+<li>Язык программирования <code>Julia</code>
+<ul>
+<li><code>Random.jl</code></li>
+<li><code>StatsBase.jl</code></li>
+<li><code>Distributions.jl</code></li>
+<li><code>Plots.jl</code></li>
+</ul></li>
+</ul>
+<h1 id="одномерное-дискретное-случайное-блуждание">Одномерное дискретное
+случайное блуждание</h1>
+<h2 id="определение">Определение</h2>
+<p><span class="math display">$$
+S_n = \sum\limits_{i=1}^n \xi _i ,
+$$</span></p>
+<p>где <span class="math inline"><em>S</em><sub>0</sub> = 0</span>,
+<span
+class="math inline">{<em>ξ</em><sub><em>n</em></sub>, <em>n</em> &gt;  = 1}</span>
+– случайные величины, <span
+class="math inline"><em>P</em>(<em>ξ</em><sub><em>n</em></sub>=1) = <em>p</em></span>
+и <span
+class="math inline"><em>P</em>(<em>ξ</em><sub><em>n</em></sub>=−1) = 1 − <em>p</em> = <em>q</em></span></p>
+<h2 id="программная-реализация">Программная реализация</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">begin</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    p_left <span class="op">=</span> <span class="fl">0.5</span> <span class="co"># вероятность шага вниз</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    p_right <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> p_left <span class="co"># вероятность шага вверх</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    num_steps <span class="op">=</span> <span class="fl">100</span> <span class="co"># количество шагов</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    start_point <span class="op">=</span> <span class="fl">0</span> <span class="co"># отправная точка</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    end_point <span class="op">=</span> <span class="fl">100</span> <span class="co"># ограничения</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    count_steps <span class="op">=</span> <span class="fl">1000</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    plt <span class="op">=</span> <span class="fu">plot</span>(legend <span class="op">=</span> <span class="cn">false</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  steps <span class="op">=</span> [<span class="fl">0</span>]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>count_steps</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(step, step[i] <span class="op">+</span> StatsBase.<span class="fu">sample</span>([<span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span>],</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">ProbabilityWeights</span>([p_left, p_right])))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<h2 id="программная-реализация-1">Программная реализация</h2>
+<div class="columns" data-align="center">
+<div class="column" style="width:50%;">
+<figure id="fig:001">
+<img src="image/1.png" style="width:100.0%"
+alt="Симметричное случайное блуждание" />
+<figcaption aria-hidden="true">Симметричное случайное
+блуждание</figcaption>
+</figure>
+</div><div class="column" style="width:50%;">
+<figure id="fig:002">
+<img src="image/2.png" style="width:100.0%"
+alt="Несимметричное случайное блуждание" />
+<figcaption aria-hidden="true">Несимметричное случайное
+блуждание</figcaption>
+</figure>
+</div>
+</div>
+<h1 id="винеровский-процесс">Винеровский процесс</h1>
+<h2 id="определение-1">Определение</h2>
+<p><span class="math display">$$
+dW = \epsilon \sqrt{dt},
+$$</span></p>
+<p>где <span class="math inline"><em>ϵ</em></span> — случайная величина
+со стандартным нормальным распределением <span
+class="math inline"><em>ϵ</em> ∼ <em>N</em>(0,1)</span>; <span
+class="math inline"><em>t</em></span> — дискретное время.</p>
+<h2 id="определение-2">Определение</h2>
+<p>Случайный процесс <span
+class="math inline"><em>W</em><sub><em>t</em></sub></span>, где <span
+class="math inline"><em>t</em> ≥ 0</span> называется винеровским
+процессом, если</p>
+<ul>
+<li><span class="math inline"><em>W</em><sub>0</sub> = 0</span> – почти
+достоверно.</li>
+<li><span class="math inline"><em>W</em><sub><em>t</em></sub></span> –
+процесс с независимыми приращениями.</li>
+<li><span
+class="math inline"><em>W</em><sub><em>t</em></sub> − <em>W</em><sub><em>s</em></sub> ∼ <em>N</em>(0,<em>σ</em><sup>2</sup>(<em>t</em>−<em>s</em>)), ∀0 ≤ <em>s</em> &lt; <em>t</em> &lt; ∞</span></li>
+</ul>
+<h2 id="программная-реализация-2">Программная реализация</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">wiener</span>(h, T) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">cumsum</span>([<span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">0</span>,h)) for i <span class="kw">in</span> <span class="fl">0</span><span class="op">:</span>h<span class="op">:</span>T])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<h2 id="программная-реализация-3">Программная реализация</h2>
+<figure id="fig:003">
+<img src="image/3.png" style="width:70.0%" alt="Винеровский процесс" />
+<figcaption aria-hidden="true">Винеровский процесс</figcaption>
+</figure>
+<h1 id="броуновское-движение">Броуновское движение</h1>
+<h2 id="определение-3">Определение</h2>
+<ol type="1">
+<li><p>движение броуновской частицы вызывается крайне частыми ударами со
+стороны непрестанно движущихся молекул окружающей жидкости;</p></li>
+<li><p>движение этих молекул столь нерегулярно, что их воздействие на
+взвешенные частицы можно описать только вероятностным образом в
+предположении очень частых, статистически независимых ударов.</p></li>
+</ol>
+<h2 id="программная-реализация-4">Программная реализация</h2>
+<div class="columns" data-align="center">
+<div class="column" style="width:50%;">
+<figure id="fig:004">
+<img src="image/4.png" style="width:100.0%"
+alt="Движение броуновской частицы. 100 шагов" />
+<figcaption aria-hidden="true">Движение броуновской частицы. 100
+шагов</figcaption>
+</figure>
+</div><div class="column" style="width:50%;">
+<figure id="fig:005">
+<img src="image/5.png" style="width:100.0%"
+alt="Движение броуновской частицы. 1000 шагов" />
+<figcaption aria-hidden="true">Движение броуновской частицы. 1000
+шагов</figcaption>
+</figure>
+</div>
+</div>
+<h1 id="геометрическое-броуновское-движение">Геометрическое броуновское
+движение</h1>
+<h2 id="определение-4">Определение</h2>
+<p><span
+class="math display"><em>d</em><em>X</em><sub><em>t</em></sub> = <em>μ</em><em>X</em><sub><em>t</em></sub><em>d</em><em>t</em> + <em>σ</em><em>X</em><sub><em>t</em></sub><em>d</em><em>W</em><sub><em>t</em></sub>,</span></p>
+<p>где <span class="math inline"><em>W</em><sub><em>t</em></sub></span>
+- винеровский процесс, а <span class="math inline"><em>μ</em></span> –
+параметр сноса, <span class="math inline"><em>σ</em></span> параметр
+волатильности.</p>
+<p>Решение:</p>
+<p><span
+class="math display"><em>X</em><sub><em>t</em></sub> = <em>X</em><sub>0</sub><em>e</em><sup>(<em>a</em>−<em>f</em><em>r</em><em>a</em><em>c</em><em>x</em><sup>2</sup>2)<em>t</em> + <em>s</em><em>W</em><sub><em>t</em></sub></sup></span></p>
+<h2 id="программная-реализация-5">Программная реализация</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode julia"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fl">0.4</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x_0 <span class="op">=</span> <span class="fl">10</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">GBM</span>(h, T, a, s)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x_0<span class="op">.*</span><span class="fu">exp</span>.((a <span class="op">-</span> s<span class="op">^</span><span class="fl">2</span><span class="op">/</span><span class="fl">2</span>). [<span class="fl">0</span><span class="op">:</span>h<span class="op">:</span>T;] <span class="op">.+</span> s<span class="op">.*</span><span class="fu">wiener</span>(h,T))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<h2 id="программная-реализация-6">Программная реализация</h2>
+<figure id="fig:006">
+<img src="image/6.png" style="width:70.0%"
+alt="Геометрическое броуновское движение" />
+<figcaption aria-hidden="true">Геометрическое броуновское
+движение</figcaption>
+</figure>
+<h1 id="выводы">Выводы</h1>
+<p>Дано описание и выполнена программная реализация простейшей модели
+случайного блуждания, винеровского процесса и геометрического
+броуновского движения.</p>
+<h2 id="список-литературы">Список литературы</h2>
+<ol type="1">
+<li>Жуковский М.Е., Родионов И.В. Основы теории вероятностей: учебное
+пособие. М.: МФТИ, 2015. 82 с.</li>
+<li>Степанов С.С. Стохастический мир [Электронный ресурс]. 2012. 376 с.
+URL: http://synset.com/pdf/ito.pdf.</li>
+<li>Гардинер К.В. Стохастические методы в естественных науках. Москва:
+Мир, 1986. 528 с.</li>
+<li>Osborne M.F.M. Brownian motion in the stock market. Operations
+Research, 1959. 305 с.</li>
+</ol>
